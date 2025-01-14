@@ -149,3 +149,50 @@ post:
 post: 
 - notifichiamo il Veicolo del fatto che il Veicolo verrà noleggiato più a lungo quindi dovrà modificare il suo stato
 
+---
+
+## Stazione
+### Attributi
+#todo
+### Metodi
+#todo
+
+---
+
+## Calcolatore
+### Attributi
+#todo
+### Metodi
+#todo
+
+---
+
+## RentACar
+### Attributi
+#todo
+### Metodi
+#todo
+
+---
+
+## Dashboard
+### Attributi
+#todo
+### Metodi
+#todo
+
+---
+
+## StazionePienaException
+### Attributi
+#todo
+### Metodi
+#todo
+
+---
+
+## NoleggioInvalidoException
+### Attributi
+#todo
+### Metodi
+#todo
