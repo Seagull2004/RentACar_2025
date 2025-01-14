@@ -1,5 +1,8 @@
 # Classi di RentACar
 
+> [!note]
+> in questo file trovi l'elenco delle classi del progetto comprese di attributi e metodi con invarianti e contratti
+
 ## Utente
 ### Attributi
 - `String: codiceFiscale`
