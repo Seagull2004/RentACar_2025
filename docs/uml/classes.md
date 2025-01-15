@@ -11,6 +11,11 @@
 - `String: cellulare`
 - `List<Noleggio>: noleggiAttivi`
 
+#### Invariante
+- codiceFiscale deve essere non nullo e seguire il formato corretto di un codice fiscale italiano.
+- nome, cognome, cellulare devono essere non nulli e non vuoti.
+- La lista noleggiAttivi non deve contenere duplicati e può essere vuota.
+
 ---
 
 ## Veicolo
@@ -25,6 +30,12 @@
 - `Stazione: stazioneAttuale`
 - `int: dimensione`
 - `List<Periodo>: periodiGiaOccupatiDaNoleggi`
+#### Invariante
+- tariffaOraria deve essere sempre positiva.
+- stazioneAttuale può essere null solo se il veicolo è in uso
+- kmPercorsi, oreUtilizzo e dimensione devono essere valori non negativi
+
+
 ### Metodi
 #### `void aggiornaTariffaOraria(double nuovaTariffa)`
 pre: 
@@ -115,6 +126,10 @@ Stazione: stazioneArrivo
 LocalDate: dataPartenza
 LocalDate: dataArrivoPrevista
 LocalDate: dataArrivoEffettiva
+#### Invariante
+- stazionePartenza e stazioneArrivo non devono essere null.
+- veicoloNoleggiato e cliente devono essere associati correttamente e non nulli.
+
 ### Metodi
 #### `void completaNoleggio(dataArrivoEffettiva, kmPercorsiDurantellNoleggio)`
 pre:
@@ -154,6 +169,8 @@ post:
 ## Stazione
 ### Attributi
 #todo
+#### Invariante
+#todo
 ### Metodi
 #todo
 
@@ -183,6 +200,8 @@ post:
 ## RentACar
 ### Attributi
 #todo
+#### Invariante
+#todo
 ### Metodi
 #todo
 
@@ -190,6 +209,8 @@ post:
 
 ## Dashboard
 ### Attributi
+#todo
+#### Invariante
 #todo
 ### Metodi
 #todo
@@ -199,6 +220,8 @@ post:
 ## StazionePienaException
 ### Attributi
 #todo
+#### Invariante
+#todo
 ### Metodi
 #todo
 
@@ -206,6 +229,8 @@ post:
 
 ## NoleggioInvalidoException
 ### Attributi
+#todo
+#### Invariante
 #todo
 ### Metodi
 #todo
