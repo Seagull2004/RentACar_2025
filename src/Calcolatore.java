@@ -8,41 +8,41 @@ public class Calcolatore {
     private static final double SOVRAPPREZZO_EXTRA_ORARIO = 1.30;
 
     public double calcolaCostoTotaleDiUnNoleggio(Noleggio noleggio) {
-        if (noleggio.dataArrivoEffettiva == null) {
+        if (noleggio.getDataArrivoEffettiva() == null) {
             throw new IllegalArgumentException("La data di arrivo effettiva non può essere null");
         }
 
         long oreEffettive = ChronoUnit.HOURS.between(
-                noleggio.dataPartenza.atStartOfDay(), 
-                noleggio.dataArrivoEffettiva.atStartOfDay()
+                noleggio.getDataPartenza().atStartOfDay(), 
+                noleggio.getDataArrivoEffettiva().atStartOfDay()
         );
 
         long orePreviste = ChronoUnit.HOURS.between(
-                noleggio.dataPartenza.atStartOfDay(), 
-                noleggio.dataArrivoPrevista.atStartOfDay()
+                noleggio.getDataPartenza().atStartOfDay(), 
+                noleggio.getDataArrivoPrevista().atStartOfDay()
         );
 
-        double tariffaBase = noleggio.veicoloNoleggiato.tariffaOraria * orePreviste;
+        double tariffaBase = noleggio.getVeicoloNoleggiato().getTariffaOraria() * orePreviste;
         double costoTotale = tariffaBase;
 
         if (oreEffettive > orePreviste) {
             long oreExtra = oreEffettive - orePreviste;
-            costoTotale += oreExtra * noleggio.veicoloNoleggiato.tariffaOraria * SOVRAPPREZZO_EXTRA_ORARIO;
+            costoTotale += oreExtra * noleggio.getVeicoloNoleggiato().getTariffaOraria() * SOVRAPPREZZO_EXTRA_ORARIO;
         }
 
         return Math.max(0, costoTotale);
     }
 
     public Period calcolaDurataNoleggio(Noleggio noleggio) {
-        if (noleggio.dataPartenza == null || 
-            noleggio.dataArrivoEffettiva == null || 
-            noleggio.dataArrivoPrevista == null ||
-            noleggio.veicoloNoleggiato == null || 
-            noleggio.cliente == null) {
+        if (noleggio.getDataPartenza() == null || 
+            noleggio.getDataArrivoEffettiva() == null || 
+            noleggio.getDataArrivoPrevista() == null ||
+            noleggio.getVeicoloNoleggiato() == null || 
+            noleggio.getCliente() == null) {
             throw new IllegalArgumentException("Tutti gli attributi del noleggio devono essere definiti");
         }
 
-        return Period.between(noleggio.dataPartenza, noleggio.dataArrivoEffettiva);
+        return Period.between(noleggio.getDataPartenza(), noleggio.getDataArrivoEffettiva());
     }
 }
 
