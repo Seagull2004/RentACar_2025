@@ -160,10 +160,23 @@ post:
 ---
 
 ## Calcolatore
-### Attributi
-#todo
 ### Metodi
-#todo
+#### `double calcolaCostoTotaleDiUnNoleggio(Noleggio noleggio)`
+pre:
+- Il noleggio deve avere sapere la data di arrivo effettiva
+post:
+- restituisce un numero >= 0
+- tiene in considerazione di un sovrapprezzo della tariffa (30% in più) per le ore extra non patuite dal noleggio (dataArrivoPrevista)
+#### `Period calcolaDurataNoleggio(Noleggio noleggio)`
+pre: 
+- Il noleggio deve avere sapere la data di partenza
+- Il noleggio deve avere sapere la data di arrivo effettiva
+- Il noleggio deve avere sapere la data di arrivo prevista
+- Il noleggio deve avere sapere il veicolo coinvolto nel noleggio
+- Il noleggio deve avere sapere l'utente che ha noleggiato il veicolo
+post:
+- restituisce anni, giorni e ore che relative alla durata del noleggio dalla data di partenza a quella di arrivo effettiva
+
 
 ---
 
