@@ -118,14 +118,14 @@ post:
 
 ## Noleggio
 ### Attributi
-int: id
-Veicolo: veicoloNoleggiato
-Utente: cliente
-Stazione: stazionePartenza
-Stazione: stazioneArrivo
-LocalDate: dataPartenza
-LocalDate: dataArrivoPrevista
-LocalDate: dataArrivoEffettiva
+- `int: id`
+- `Veicolo: veicoloNoleggiato`
+- `Utente: cliente`
+- `Stazione: stazionePartenza`
+- `Stazione: stazioneArrivo`
+- `LocalDate: dataPartenza`
+- `LocalDate: dataArrivoPrevista`
+- `LocalDate: dataArrivoEffettiva`
 #### Invariante
 - stazionePartenza e stazioneArrivo non devono essere null.
 - veicoloNoleggiato e cliente devono essere associati correttamente e non nulli.
