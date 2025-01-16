@@ -117,6 +117,7 @@ post:
 ---
 
 ## Noleggio
+
 ### Attributi
 - `int: id`
 - `Veicolo: veicoloNoleggiato`
@@ -134,19 +135,36 @@ post:
 #### `void completaNoleggio(dataArrivoEffettiva, kmPercorsiDurantellNoleggio)`
 pre:
 - dataArrivoEffettiva deve essere >= di this.dataArrivoPrevista
+- veicoloNoleggiato.StazioneAttuale = null, (vedere se va bene null)
+- id.dataArrivoEffettiva >= id.dataArrivoPrevista.
 post:
 - notificheremo la stazione di arrivo di ospitare il veicolo del noleggio
 - notificheremo il veicolo stesso di avere percorso un numero di chilometri pari a kmPercorsiDuranteNoleggio
+- veicoloNoleggiato.stazioneAttuale = id.stazioneArrivo 
+- tramite veicoloNoleggiato.aggiornaStazioneAttuale(Stazione staioneArrivo),
+- veicoloNoleggiato.kmPercorsi = veicoloNoleggiato.kmPercorsi + kmPercorsiDuranteIlNoleggio
+- tramite veicoloNoleggiato.aggiungiKmPercorsi(int (kmPercorsiDuranteIlNoleggio)), 
+- veicoloNoleggiato.oreDiUtilizzo = veicoloNoleggiato.oreDiUtilizzo + (id.dataArrivoEffettiva - id.dataPartenza) 
+- tramite calcolatore.calcolaDurataNoleggio(id),
+- stazioneArrivo.listVeicoli = stazioneArrivo.listVeicoli + veicoloNoleggiato
+- tramite stazioneArrivo.parcheggiaVeicolo(veicoloNoleggiato).
+- L'id del noleggio sarà rimosso da cliente.noleggiAttivi.  
 
 #### `void notificaLaStazioneDelCompletamentoDelNoleggio()`
+pre:
+- veicoloNoleggiato.stazioneAttuale = stazioneArrivo,
 post: 
 - la stazione riceverà questa notifica e modificherà il suo stato
+- La notifica è stata ricevuta dalla stazioneArrivo tramite Stazione.receiveFineNoleggio(id). 
 
 #### `void notificaVeicoloDelCompletamentoNoleggio(int kmPercorsiDuranteIlNoleggio, Noleggio noleggio)`
 pre: 
 - this.dataArrivoEffettiva e this.dataPartenza siano non NULL
+- veicoloNoleggiato.StazioneAttuale = stazioneArrivo.
 post:
 - il veicolo del noleggio riceverà questa notifica e modificherà il suo stato 
+- La notifica è stata ricevuta dal veicoloNoleggiato tramite veicoloNoleggiato.receiveFineNoleggio(id). 
+
 
 #### `void notificaLaStazioneDeInizioDelNoleggio()`
 post:
