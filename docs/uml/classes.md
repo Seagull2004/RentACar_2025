@@ -217,11 +217,74 @@ post:
 
 ## RentACar
 ### Attributi
-#todo
+- `String: partitaIVA`
+- `List<Noleggio>: elencoNoleggiAttivi`
+- `List<Stazione>: elencoStazioniDiNoleggio`
+- `Calcolatore: calcolatore`
 #### Invariante
-#todo
+- `partitaIVA` deve essere un valore valido secondo il formato italiano e non nullo.
+- `elencoNoleggiAttivi` contiene solo noleggi validi e attivi.
+- `elencoStazioniDiNoleggio` non deve contenere duplicati e tutte le stazioni devono essere valide.
+- `factory` e `calcolatore` devono essere istanze valide e non null.
 ### Metodi
-#todo
+#### `String disponibilità(String idStazione, String nomeStazione, String luogoStazione, String tipoVeicolo, String modelloVeicolo, double tariffaOraria, LocalDate dataImmatricolazione, int posti)`
+pre:
+- `idStazione`, `nomeStazione`, e `luogoStazione` non devono essere nulli o vuoti.
+- Il tipo e il modello del veicolo devono corrispondere ai valori esistenti.
+- La data di immatricolazione deve essere valida.
+- `posti` deve essere >= 0.
+post:
+- Restituisce una stringa che descrive la disponibilità dei veicoli in base ai parametri forniti.
+
+---
+
+#### `Noleggio creaNoleggio(Utente utente, String luogo, String tipo, String modello, int posti, LocalDate dataInizio, LocalDate dataFine, Stazione stazioneRitiro, Stazione stazioneConsegna) throws NoleggioInvalidoException`
+pre:
+- `utente`, `luogo`, `tipo`, `modello`, `dataInizio`, `dataFine`, `stazioneRitiro` e `stazioneConsegna` non devono essere nulli.
+- `dataFine` deve essere >= `dataInizio`.
+- `posti` deve essere >= 0.
+- La disponibilità del veicolo richiesto deve essere verificata.
+post:
+- Genera e restituisce un nuovo noleggio valido, aggiornando `elencoNoleggiAttivi` con il nuovo noleggio.
+
+---
+
+#### `Utente creaUtente(String cf, String nome, String cognome, String cellulare)`
+pre:
+- `cf`, `nome`, `cognome`, e `cellulare` non devono essere nulli o vuoti.
+- `cf` deve rispettare il formato corretto di un codice fiscale italiano.
+post:
+- Restituisce un'istanza di `Utente` con i dati forniti.
+
+---
+
+#### `Noleggio creaNoleggio(Veicolo veicoloNoleggiato, Utente cliente, Stazione stazionePartenza, Stazione stazioneArrivo, LocalDate dataPartenza, LocalDate dataArrivoPrevista) throws NoleggioInvalidoException`
+pre:
+- Tutti i parametri devono essere non nulli.
+- `dataArrivoPrevista` deve essere >= `dataPartenza`.
+- Il veicolo deve essere disponibile nel periodo richiesto.
+post:
+- Genera un nuovo noleggio valido e aggiorna `elencoNoleggiAttivi`.
+
+---
+
+#### `Stazione creaStazione(String nome, String regione, String provincia, String città, String via, String numeroCivico, int postiTotali, int postiLiberi)`
+pre:
+- `nome`, `regione`, `provincia`, `città`, `via` e `numeroCivico` non devono essere nulli o vuoti.
+- `postiTotali` e `postiLiberi` devono essere >= 0 e `postiLiberi` deve essere <= `postiTotali`.
+post:
+- Restituisce una nuova istanza di `Stazione` con i dati forniti e aggiorna `elencoStazioniDiNoleggio`.
+
+---
+
+#### `Veicolo creaVeicolo(String targa, String tipo, String modello, LocalDate annoImmatricolazione, double tariffaOraria, Stazione stazioneAttuale, int dimensione)`
+pre:
+- `targa`, `tipo`, e `modello` non devono essere nulli o vuoti.
+- `annoImmatricolazione` deve essere valido.
+- `tariffaOraria` deve essere > 0.
+- `dimensione` deve essere >= 0.
+post:
+- Genera un nuovo veicolo valido e restituisce l'istanza.
 
 ---
 
@@ -252,3 +315,95 @@ post:
 #todo
 ### Metodi
 #todo
+
+
+## Dashboard
+### Attributi
+- `RentACar: azienda`  
+
+### Metodi
+
+#### `void visualizzaInfoUtente(String id)`
+pre:
+- `id` non deve essere nullo o vuoto.
+- Deve esistere un utente con l'ID fornito nell'azienda.
+post:
+- Visualizza le informazioni relative all'utente con l'ID specificato.
+
+---
+
+#### `void visualizzaInfoTuttiUtenti()`
+pre:
+- Devono esistere utenti registrati nell'azienda.
+post:
+- Visualizza le informazioni di tutti gli utenti registrati.
+
+---
+
+#### `void visualizzaInfoVeicolo(String targa)`
+pre:
+- `targa` non deve essere nulla o vuota.
+- Deve esistere un veicolo con la targa specificata.
+post:
+- Visualizza le informazioni relative al veicolo con la targa specificata.
+
+---
+
+#### `void visualizzaInfoTuttiVeicoli()`
+pre:
+- Devono esistere veicoli registrati nell'azienda.
+post:
+- Visualizza le informazioni di tutti i veicoli registrati.
+
+---
+
+#### `void visualizzaInfoNoleggio(String idNoleggio)`
+pre:
+- `idNoleggio` non deve essere nullo o vuoto.
+- Deve esistere un noleggio con l'ID specificato.
+post:
+- Visualizza le informazioni relative al noleggio con l'ID specificato.
+
+---
+
+#### `void visualizzaInfoNoleggiAttivi()`
+pre:
+- Devono esistere noleggi attivi nell'azienda.
+post:
+- Visualizza le informazioni di tutti i noleggi attivi.
+
+---
+
+## StazionePienaException
+### Attributi
+- `String: idStazione`  (Identificativo della stazione piena.)
+- `int: postiTotali`  (Numero totale di posti disponibili nella stazione.)
+- `int: postiOccupati`  (Numero di posti attualmente occupati nella stazione.)
+### Invariante
+- `postiOccupati` deve essere minore o uguale a `postiTotali`.
+### Metodi
+#### Costruttore
+pre:
+- `String idStazione`
+- `int postiTotali`
+- `int postiOccupati`
+post:
+- Inizializza gli attributi con i valori forniti.
+
+---
+
+#### `String getMessaggioErrore()`
+post:
+- Restituisce un messaggio descrittivo nel formato:  
+  `"La stazione [idStazione] è piena: [postiOccupati]/[postiTotali] posti occupati."`
+
+---
+
+## NoleggioInvalidoException
+### Attributi
+- `String: motivo`  (Descrizione del motivo per cui il noleggio è considerato invalido)
+- `Noleggio: noleggioInvalido`  (Riferimento al noleggio che ha causato l'eccezione (opzionale))
+
+### Invariante
+- `motivo` non deve essere nullo o vuoto.
+
