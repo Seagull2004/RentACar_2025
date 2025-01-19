@@ -1,6 +1,6 @@
 /**
  * Dashboard
- * chi si occupa di questa classe?
+ * Di questa classe di occupa Emir
  */
 public class Dashboard {
     private RentACar azienda;
