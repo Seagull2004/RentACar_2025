@@ -16,8 +16,6 @@
 - nome, cognome, cellulare devono essere non nulli e non vuoti.
 - La lista noleggiAttivi non deve contenere duplicati e può essere vuota.
 
----
-
 ## Veicolo
 ### Attributi
 - `String: targa`
@@ -43,16 +41,22 @@ pre:
 post:
 - modifica lo stato di Veicolo cambiando il valore di this.tariffaOraria
 
+---
+
 #### `void aggiornaStazione(Stazione nuovaStazione)`
 post:
 - modifica lo stato di Veicolo cambiando il valore di this.stazioneAttuale
 - se il veicolo viene noleggiato e inizia il suo viaggio, la stazione attuale è NULL
+
+---
 
 #### `double getKmMediAllOra()`
 pre:
 - this.oreUtilizzo deve essere positivo
 post: 
 - ritorna sempre un valore double >= 0 che rappresenta i km medi che la macchina percorre in un ora basandosi sugli attributi di istanza
+
+---
 
 #### `void aggiungiKmPercorsi(int km)`
 pre:
@@ -61,12 +65,16 @@ post:
 - this.kmPercorsi verrà modificato
 - this.kmPercorsi avrà un valore maggiore rispetto a prima
 
+---
+
 #### `void aggiungiOreDiUtilizzo (int ore)`
 pre:
 - il parametro ore deve essere >= 0
 post:
 - this.oreUtilizzo verrà modificato
 - this.oreUtilizzo avrà un valore maggiore rispetto a prima
+
+---
 
 #### `void aggiungiGiorniDiUtilizzo(int giorni)`
 pre:
@@ -75,15 +83,21 @@ post:
 - this.oreUtilizzo verrà modificato
 - this.oreUtilizzo avrà un valore maggiore rispetto a prima
 
+---
+
 #### `boolean controlla DisponibilitàPeriodo(LocalDate inizio, LocalDate fine)`
 pre:
 - il parametro fine deve essere >= del parametro inizio
 post:
 - restituisce vero se la macchina è disponibile in quel range e falso se non lo è
 
+---
+
 #### `boolean controllaSeInUnaStazione()`
 post:
 - vero se il veicolo si trova parcheggiata in una stazione, falso altrimenti 
+
+---
 
 #### `void riceviNotificaDiProgrammazioneNoleggio(Noleggio noleggio)`
 pre:
@@ -92,11 +106,15 @@ post:
 - this.periodiGiaOccupatiDaNoleggi cambia di stato
 - this.periodiGiaOccupatiDaNoleggi non ci saranno accavallamenti di date
 
+---
+
 #### `void riceviNotificaDiInizioNoleggio(Noleggio noleggio)`
 pre:
 - il parametro noleggio non deve essere NULL
 post:
 - this.stazioneAttuale cambierà stato
+
+---
 
 #### `void riceviNotificaDiProlungamentoNoleggio(Noleggio noleggio)`
 pre:
@@ -104,6 +122,8 @@ pre:
 post:
 - this.periodiGiaOccupatiDaNoleggi cambia di stato
 - this.periodiGiaOccupatiDaNoleggi non ci saranno accavallamenti di date
+
+---
 
 #### `void riceviNotificaDiTerminazioneNoleggio(Noleggio noleggio)`
 pre:
@@ -113,8 +133,6 @@ post:
 - this.kmPercorsi cambierà di stato
 - this.oreUtilizzo cambierà di stato
 - this.periodiGiaOccuapatiDaNoleggi cambierà di stato ed eliminerà il range di date relativo al noleggio appena concluso
-
----
 
 ## Noleggio
 
@@ -150,12 +168,16 @@ post:
 - tramite stazioneArrivo.parcheggiaVeicolo(veicoloNoleggiato).
 - L'id del noleggio sarà rimosso da cliente.noleggiAttivi.  
 
+---
+
 #### `void notificaLaStazioneDelCompletamentoDelNoleggio()`
 pre:
 - veicoloNoleggiato.stazioneAttuale = stazioneArrivo,
 post: 
 - la stazione riceverà questa notifica e modificherà il suo stato
 - La notifica è stata ricevuta dalla stazioneArrivo tramite Stazione.receiveFineNoleggio(id). 
+
+---
 
 #### `void notificaVeicoloDelCompletamentoNoleggio(int kmPercorsiDuranteIlNoleggio, Noleggio noleggio)`
 pre: 
@@ -165,24 +187,29 @@ post:
 - il veicolo del noleggio riceverà questa notifica e modificherà il suo stato 
 - La notifica è stata ricevuta dal veicoloNoleggiato tramite veicoloNoleggiato.receiveFineNoleggio(id). 
 
+---
 
 #### `void notificaLaStazioneDeInizioDelNoleggio()`
 post:
 - notifichiamo la Stazione del fatto che il Veicolo è stato prese e quindi dovrà modificare il suo stato
 
+---
+
 #### `void notificaVeicoloDeInizioDelNoleggio()`
 post:
 - notifichiamo il Veicolo del fatto che il Veicolo è stato prese e quindi dovrà modificare il suo stato
+
+---
 
 #### `void notificaVeicoloDellaProgrammazioneDelNoleggio()`
 post: 
 - notifichiamo il Veicolo del fatto che il Veicolo verrà noleggiato in un certo range di date e quindi dovrà modificare il suo stato
 
+---
+
 #### `void notificaIlVeicoloDelProlungamentoDelNoleggio()`
 post: 
 - notifichiamo il Veicolo del fatto che il Veicolo verrà noleggiato più a lungo quindi dovrà modificare il suo stato
-
----
 
 ## Stazione
 ### Attributi
@@ -211,6 +238,8 @@ post:
 - Il veicolo `v` viene aggiunto a `listVeicoli`.
 - Se non ci sono posti disponibili (`listVeicoli.size() == postiTotali`), viene lanciata un'eccezione `StazionePienaException`.
 
+---
+
 #### `void liberaVeicoloDallaStazione(Veicolo v)`
 pre:
 - `v` non deve essere nullo.
@@ -218,9 +247,13 @@ pre:
 post:
 - Il veicolo `v` viene rimosso da `listVeicoli`.
 
+---
+
 #### `int calcolaPostiLiberi()`
 post:
 - Restituisce il numero di posti liberi nella stazione calcolato come `postiTotali - listVeicoli.size()`.
+
+---
 
 #### `void receiveInizioNoleggio(Noleggio noleggio)`
 pre:
@@ -228,6 +261,8 @@ pre:
 - Il veicolo associato a `noleggio` deve essere presente in `listVeicoli`.
 post:
 - Il veicolo associato a `noleggio` viene rimosso da `listVeicoli`.
+
+---
 
 #### `void receiveFineNoleggio(Noleggio noleggio)`
 pre:
@@ -237,8 +272,6 @@ pre:
 post:
 - Il veicolo associato a `noleggio` viene aggiunto a `listVeicoli`.
 
----
-
 ## Calcolatore
 ### Metodi
 #### `double calcolaCostoTotaleDiUnNoleggio(Noleggio noleggio)`
@@ -247,6 +280,9 @@ pre:
 post:
 - restituisce un numero >= 0
 - tiene in considerazione di un sovrapprezzo della tariffa (30% in più) per le ore extra non patuite dal noleggio (dataArrivoPrevista)
+
+---
+
 #### `Period calcolaDurataNoleggio(Noleggio noleggio)`
 pre: 
 - Il noleggio deve avere sapere la data di partenza
@@ -256,30 +292,6 @@ pre:
 - Il noleggio deve avere sapere l'utente che ha noleggiato il veicolo
 post:
 - restituisce anni, giorni e ore che relative alla durata del noleggio dalla data di partenza a quella di arrivo effettiva
-
-
----
-
-## RentACar
-### Attributi
-- `String: partitaIVA`
-- `List<Noleggio>: elencoNoleggiAttivi`
-- `List<Stazione>: elencoStazioniDiNoleggio`
-- `Calcolatore: calcolatore`
-#### Invariante
-- `partitaIVA` deve essere un valore valido secondo il formato italiano e non nullo.
-- `elencoNoleggiAttivi` contiene solo noleggi validi e attivi.
-- `elencoStazioniDiNoleggio` non deve contenere duplicati e tutte le stazioni devono essere valide.
-- `factory` e `calcolatore` devono essere istanze valide e non null.
-### Metodi
-#### `String disponibilità(String idStazione, String nomeStazione, String luogoStazione, String tipoVeicolo, String modelloVeicolo, double tariffaOraria, LocalDate dataImmatricolazione, int posti)`
-pre:
-- `idStazione`, `nomeStazione`, e `luogoStazione` non devono essere nulli o vuoti.
-- Il tipo e il modello del veicolo devono corrispondere ai valori esistenti.
-- La data di immatricolazione deve essere valida.
-- `posti` deve essere >= 0.
-post:
-- Restituisce una stringa che descrive la disponibilità dei veicoli in base ai parametri forniti.
 
 ---
 
@@ -301,6 +313,8 @@ pre:
 post:
 - Restituisce un'istanza di `Utente` con i dati forniti.
 
+---
+
 #### `Noleggio creaNoleggio(Veicolo veicoloNoleggiato, Utente cliente, Stazione stazionePartenza, Stazione stazioneArrivo, LocalDate dataPartenza, LocalDate dataArrivoPrevista) throws NoleggioInvalidoException`
 pre:
 - Tutti i parametri devono essere non nulli.
@@ -309,12 +323,16 @@ pre:
 post:
 - Genera un nuovo noleggio valido e aggiorna `elencoNoleggiAttivi`.
 
+---
+
 #### `Stazione creaStazione(String nome, String regione, String provincia, String città, String via, String numeroCivico, int postiTotali, int postiLiberi)`
 pre:
 - `nome`, `regione`, `provincia`, `città`, `via` e `numeroCivico` non devono essere nulli o vuoti.
 - `postiTotali` e `postiLiberi` devono essere >= 0 e `postiLiberi` deve essere <= `postiTotali`.
 post:
 - Restituisce una nuova istanza di `Stazione` con i dati forniti e aggiorna `elencoStazioniDiNoleggio`.
+
+---
 
 #### `Veicolo creaVeicolo(String targa, String tipo, String modello, LocalDate annoImmatricolazione, double tariffaOraria, Stazione stazioneAttuale, int dimensione)`
 pre:
@@ -338,11 +356,15 @@ pre:
 post:
 - Visualizza le informazioni relative all'utente con l'ID specificato.
 
+---
+
 #### `void visualizzaInfoTuttiUtenti()`
 pre:
 - Devono esistere utenti registrati nell'azienda.
 post:
 - Visualizza le informazioni di tutti gli utenti registrati.
+
+---
 
 #### `void visualizzaInfoVeicolo(String targa)`
 pre:
@@ -351,11 +373,15 @@ pre:
 post:
 - Visualizza le informazioni relative al veicolo con la targa specificata.
 
+---
+
 #### `void visualizzaInfoTuttiVeicoli()`
 pre:
 - Devono esistere veicoli registrati nell'azienda.
 post:
 - Visualizza le informazioni di tutti i veicoli registrati.
+
+---
 
 #### `void visualizzaInfoNoleggio(String idNoleggio)`
 pre:
@@ -364,13 +390,13 @@ pre:
 post:
 - Visualizza le informazioni relative al noleggio con l'ID specificato.
 
+---
+
 #### `void visualizzaInfoNoleggiAttivi()`
 pre:
 - Devono esistere noleggi attivi nell'azienda.
 post:
 - Visualizza le informazioni di tutti i noleggi attivi.
-
----
 
 ## StazionePienaException
 ### Attributi
@@ -388,12 +414,12 @@ pre:
 post:
 - Inizializza gli attributi con i valori forniti.
 
+---
+
 #### `String getMessaggioErrore()`
 post:
 - Restituisce un messaggio descrittivo nel formato:  
   `"La stazione [idStazione] è piena: [postiOccupati]/[postiTotali] posti occupati."`
-
----
 
 ## NoleggioInvalidoException
 ### Attributi
