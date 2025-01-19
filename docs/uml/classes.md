@@ -186,11 +186,56 @@ post:
 
 ## Stazione
 ### Attributi
-#todo
+- `int: id` 
+- `String: nome`
+- `String: numeroCivico`
+- `String: via`
+- `String: città`
+- `String: provincia`
+- `String: regione`
+- `List<Veicolo>: listVeicoli` (Lista dei veicoli attualmente parcheggiati nella stazione.)
+- `int: postiTotali` (Numero totale di posti disponibili nella stazione.)
+
 #### Invariante
-#todo
+- `listVeicoli.size() <= postiTotali`  
+  Il numero di veicoli parcheggiati non deve superare il numero totale di posti disponibili.
+
 ### Metodi
-#todo
+
+#### `void parcheggiaVeicolo(Veicolo v) throws StazionePienaException`
+pre:
+- `v` non deve essere nullo.
+- Il veicolo `v` non deve già essere presente in `listVeicoli`.
+- `listVeicoli.size() < postiTotali`.
+post:
+- Il veicolo `v` viene aggiunto a `listVeicoli`.
+- Se non ci sono posti disponibili (`listVeicoli.size() == postiTotali`), viene lanciata un'eccezione `StazionePienaException`.
+
+#### `void liberaVeicoloDallaStazione(Veicolo v)`
+pre:
+- `v` non deve essere nullo.
+- Il veicolo `v` deve essere presente in `listVeicoli`.
+post:
+- Il veicolo `v` viene rimosso da `listVeicoli`.
+
+#### `int calcolaPostiLiberi()`
+post:
+- Restituisce il numero di posti liberi nella stazione calcolato come `postiTotali - listVeicoli.size()`.
+
+#### `void receiveInizioNoleggio(Noleggio noleggio)`
+pre:
+- `noleggio` non deve essere nullo.
+- Il veicolo associato a `noleggio` deve essere presente in `listVeicoli`.
+post:
+- Il veicolo associato a `noleggio` viene rimosso da `listVeicoli`.
+
+#### `void receiveFineNoleggio(Noleggio noleggio)`
+pre:
+- `noleggio` non deve essere nullo.
+- Il veicolo associato a `noleggio` non deve essere già presente in `listVeicoli`.
+- Devono esserci posti liberi nella stazione.
+post:
+- Il veicolo associato a `noleggio` viene aggiunto a `listVeicoli`.
 
 ---
 
@@ -256,8 +301,6 @@ pre:
 post:
 - Restituisce un'istanza di `Utente` con i dati forniti.
 
----
-
 #### `Noleggio creaNoleggio(Veicolo veicoloNoleggiato, Utente cliente, Stazione stazionePartenza, Stazione stazioneArrivo, LocalDate dataPartenza, LocalDate dataArrivoPrevista) throws NoleggioInvalidoException`
 pre:
 - Tutti i parametri devono essere non nulli.
@@ -266,16 +309,12 @@ pre:
 post:
 - Genera un nuovo noleggio valido e aggiorna `elencoNoleggiAttivi`.
 
----
-
 #### `Stazione creaStazione(String nome, String regione, String provincia, String città, String via, String numeroCivico, int postiTotali, int postiLiberi)`
 pre:
 - `nome`, `regione`, `provincia`, `città`, `via` e `numeroCivico` non devono essere nulli o vuoti.
 - `postiTotali` e `postiLiberi` devono essere >= 0 e `postiLiberi` deve essere <= `postiTotali`.
 post:
 - Restituisce una nuova istanza di `Stazione` con i dati forniti e aggiorna `elencoStazioniDiNoleggio`.
-
----
 
 #### `Veicolo creaVeicolo(String targa, String tipo, String modello, LocalDate annoImmatricolazione, double tariffaOraria, Stazione stazioneAttuale, int dimensione)`
 pre:
@@ -285,37 +324,6 @@ pre:
 - `dimensione` deve essere >= 0.
 post:
 - Genera un nuovo veicolo valido e restituisce l'istanza.
-
----
-
-## Dashboard
-### Attributi
-#todo
-#### Invariante
-#todo
-### Metodi
-#todo
-
----
-
-## StazionePienaException
-### Attributi
-#todo
-#### Invariante
-#todo
-### Metodi
-#todo
-
----
-
-## NoleggioInvalidoException
-### Attributi
-#todo
-#### Invariante
-#todo
-### Metodi
-#todo
-
 
 ## Dashboard
 ### Attributi
@@ -330,15 +338,11 @@ pre:
 post:
 - Visualizza le informazioni relative all'utente con l'ID specificato.
 
----
-
 #### `void visualizzaInfoTuttiUtenti()`
 pre:
 - Devono esistere utenti registrati nell'azienda.
 post:
 - Visualizza le informazioni di tutti gli utenti registrati.
-
----
 
 #### `void visualizzaInfoVeicolo(String targa)`
 pre:
@@ -347,15 +351,11 @@ pre:
 post:
 - Visualizza le informazioni relative al veicolo con la targa specificata.
 
----
-
 #### `void visualizzaInfoTuttiVeicoli()`
 pre:
 - Devono esistere veicoli registrati nell'azienda.
 post:
 - Visualizza le informazioni di tutti i veicoli registrati.
-
----
 
 #### `void visualizzaInfoNoleggio(String idNoleggio)`
 pre:
@@ -363,8 +363,6 @@ pre:
 - Deve esistere un noleggio con l'ID specificato.
 post:
 - Visualizza le informazioni relative al noleggio con l'ID specificato.
-
----
 
 #### `void visualizzaInfoNoleggiAttivi()`
 pre:
@@ -389,8 +387,6 @@ pre:
 - `int postiOccupati`
 post:
 - Inizializza gli attributi con i valori forniti.
-
----
 
 #### `String getMessaggioErrore()`
 post:
